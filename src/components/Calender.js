@@ -121,21 +121,21 @@ const RenderCells = ({
         >
           {format(day, "M") === month ? formmatedDate : ""}
           <div>
-            <ul>
+            <ol className='ps-0 list-decimal list-inside'>
               {todoList.map((todo, index) => {
                 if (isSameDay(new Date(todo.day), cloneday)) {
                   return (
                     <li
-                      className={`${todo.success ?  "text-gray-300" : ""} text-xs font-normal text-ellipsis overflow-hidden whitespace-nowrap`}
+                      className={`${todo.success ?  "text-gray-300" : ""} text-xs font-normal text-ellipsis overflow-hidden whitespace-nowrap `}
                       key={index}
                     >
-                      · {todo.content}
+                      {todo.content}
                     </li>
                   );
                 }
                 return;
               })}
-            </ul>
+            </ol>
           </div>
         </div>
       );
@@ -237,11 +237,11 @@ const Modal = ({ modal, setModal }) => {
         ref={modalRef}
         
       >
-        <div className='border-b-2 flex justify-between p-2  justify-center items-center'>
+        <div className='border-b-2 flex justify-between p-2 items-center'>
           <button onClick={() => setModal({...modal, day : addDays(modal.day, -1)})}>
             <FiChevronLeft className='text-2xl'/>
           </button>
-          <span className=' px-2 py-1 bg-violet-700 rounded-lg text-white font-bold'>
+          <span className=' px-3 py-[6px] border-violet-700 border-2 rounded-lg text-gray-500 font-bold'>
             {format(modal.day, "yyyy-MM-dd")}
             </span>
             <button onClick={() => setModal({...modal, day : addDays(modal.day, 1)})}>
@@ -264,7 +264,7 @@ const Modal = ({ modal, setModal }) => {
               <div className='relative py-2 px-3 flex justify-center items-center gap-4'>
                 <input
                   type='text'
-                  className='outline-none border-2 focus:border-violet-400 grow p-1'
+                  className='outline-none border-2 focus:border-violet-400 grow p-2 text-sm'
                   ref={inputRef}
                   value={todoValue}
                   placeholder='일정을 입력해주세요.'
@@ -276,16 +276,16 @@ const Modal = ({ modal, setModal }) => {
                 <ImPencil className='text-base absolute right-0 mr-6' />
             
               </div>
-              <div className='flex justify-center items-center gap-4 border-t-2 '>
+              <div className='flex justify-center items-center gap-3 p-2 border-slate-400 '>
                 
                 <button 
-                  className='py-1 px-2 border-x border-b border-slate-500 hover:bg-slate-500 hover:text-white'
+                  className='py-1 px-2 border rounded-md font-bold text-gray-400 border-slate-400 hover:bg-slate-500 hover:text-white'
                   onClick={() => dispatch(clean(modal.day))}
                 >Clean</button>
-                <button className='py-1 px-2 border-x border-b border-slate-500 hover:bg-slate-500 hover:text-white'
+                <button className='py-1 px-2 border rounded-md font-bold text-gray-400 border-slate-400 hover:bg-slate-500 hover:text-white'
                   onClick={() => dispatch(allCheck(modal.day))}
                 >All Check</button>
-                <button className='py-1 px-2 border-x border-b border-slate-500 hover:bg-slate-500 hover:text-white'
+                <button className='py-1 px-2 border rounded-md font-bold text-gray-400 border-slate-400 hover:bg-slate-500 hover:text-white'
                   onClick={() => dispatch(allDecheck(modal.day))}
                 >All Decheck</button>
                 
@@ -315,7 +315,7 @@ const TodoList = ({ day }) => {
     render = <span className='border-x-8 py-3  border-pink-300 text-center'>해당 일정이 없습니다.</span>
   }
   
-  return <div className='p-2 flex flex-col gap-3'>{render}</div>;
+  return <div className='p-2 flex flex-col gap-3 min-h-[150px] justify-center'>{render}</div>;
 };
 
 const TodoItem = ({ todo }) => {
@@ -333,8 +333,8 @@ const TodoItem = ({ todo }) => {
       className={`${
         todo.success
           ? "opacity-60 border-slate-600"
-          : "border-green-700 hover:bg-slate-100"
-      } flex justify-between p-4 border-b border-l-8 `}
+          : "border-green-600 hover:bg-slate-100"
+      } flex justify-between p-4  border-x-4  bg-yellow-50 h-14`}
       onMouseOver={() => setIsOver(true)}
       onMouseLeave={() => setIsOver(false)}
       onDoubleClick={() => setIsModify(true)}
@@ -355,20 +355,20 @@ const TodoItem = ({ todo }) => {
           <>
             {todo.success ? (
               <BsCheckSquare
-                className='text-green-700 font-bold text-2xl'
+                className='text-green-700 font-bold text-xl'
                 onClick={() =>
                   dispatch(modifyTodo({ id: todo.id, success: false }))
                 }
               />
             ) : (
               <button
-                className='w-6 h-6 border-2 rounded border-green-600'
+                className='w-5 h-5 border-2 rounded border-green-600'
                 onClick={() =>
                   dispatch(modifyTodo({ id: todo.id, success: true }))
                 }
               ></button>
             )}
-            <div className={`${todo.success ? "line-through" : ""}`}>
+            <div className={`${todo.success ? "line-through" : ""} text-sm`}>
               {todo.content}
             </div>
           </>
