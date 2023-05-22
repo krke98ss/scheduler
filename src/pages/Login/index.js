@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { isLogin } from '../../redux/feature/userSlice';
+import axios from '../../api/axios';
+import { userLogin } from '../../redux/feature/user/action';
 
-const loginUser = {
-  id : "admin",
-  pw : "1234"
-}
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -23,10 +20,16 @@ const Login = () => {
   const userRef = useRef();
   const location = useLocation();
   const from = location.state?.from.pathname || "/";
+  const err = useSelector((state) => state.user.error);
+  const isLogin = useSelector((state) => state.user.isLogin);
 
   useEffect(() => {
     userRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    setErrMsg(err);
+  }, [err]);
 
 
 
@@ -45,39 +48,36 @@ const Login = () => {
     }
   }
 
-  const login = () => {
-    if(!user.id ){
+  const login = async () => {
+    if (!user.id) {
       setErrMsg("아이디를 입력해주십시오.");
       return;
     }
-    if(!user.pw) {
+    if (!user.pw) {
       setErrMsg("비밀번호를 입력해주십시오.");
       return;
     }
 
-    if(user.id === loginUser.id){
-      if(user.pw === loginUser.pw){
-        alert("!");
-        dispatch(isLogin(true));
-      
-      
-        navigate(from, {replace: true});
-      }
-    }
+    await dispatch(userLogin(user));
+    navigate(from, { replace: true });
+
+    
+  };
 
 
   
-  }
+  
 
   return (
-    <section className='w-screen, h-screen flex justify-center items-center flex-col gap-4  font-bold text-slate-700'>
-      <div className='w-96 p-2 ml-2'></div>
+    <div className='w-screen h-screen flex justify-center items-center'>
+    <section className='w-[420px] flex justify-center items-center flex-col gap-4  font-bold text-slate-700 bg-white rounded-2xl py-4 '>
+      <div className='ml-2'></div>
       <form 
         className='flex flex-col gap-3 w-96 p-5 justify-center'
         onSubmit={onSubmitHandler}
         onKeyUp={onkeyupHandler}
       >
-      <span className='text-center p-3 m-6 text-lg border rounded-full tracking-wider'>
+      <span className='text-center p-3 m-6 text-lg border border-violet-500 rounded-full tracking-wider'>
         Login
       </span>
 
@@ -126,6 +126,7 @@ const Login = () => {
             </div>
         </div>
     </section>
+    </div>
   );
 }
 

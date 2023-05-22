@@ -1,5 +1,5 @@
 import storage from 'redux-persist/lib/storage';
-import userReducer from "./feature/userSlice";
+import userReducer from "./feature/user/userSlice";
 import todoReducer from "./feature/todoSlice";
 import memoReducer from "./feature/memoSlice";
 import { combineReducers } from 'redux';
@@ -11,16 +11,25 @@ import persistStore from 'redux-persist/es/persistStore';
 const persistConfig = {
   key : "root",
   version : 1,
-  storage
+  storage,
+  blacklist : ['auth']
 }
 
+const authConfig = {
+  key : 'auth',
+  storage,
+  blacklist: ['error']
+}
+
+
+
 const rootReducer = combineReducers({
-  user : userReducer,
+  user : persistReducer(authConfig, userReducer),
   todo : todoReducer,
   memo : memoReducer
 })
 
-const persistedReducer  = persistReducer(persistConfig, rootReducer);
+const persistedReducer  = rootReducer;
 
 const store = configureStore({
   reducer : persistedReducer,

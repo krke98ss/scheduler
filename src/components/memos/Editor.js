@@ -2,9 +2,6 @@ import React from 'react'
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useDispatch } from 'react-redux';
-
-
 
 const config = {
   toolbar : ["heading","|", "bold", "italic", "link", 'bulletedList', 'numberedList', 'blockQuote'],
@@ -17,11 +14,7 @@ const config = {
     ]
 }
 }
-
-
-const RenderEditor = ({content, setContent}) => {
-  const dispatch =useDispatch();
-
+const Editor = ({content, setContent}) => {
 
   return (
     <div>
@@ -38,4 +31,4 @@ const RenderEditor = ({content, setContent}) => {
   )
 }
 
-export default RenderEditor
+export default Editor

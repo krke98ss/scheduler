@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getMemo, modifyMemo, removeMemo } from '../redux/feature/memoSlice';
+import { modifyMemo, removeMemo } from '../../redux/feature/memoSlice';
 import Parser from 'html-react-parser';
 import { format } from 'date-fns';
-import RenderEditor from './RenderEditor';
 import { BsArrowReturnLeft } from "react-icons/bs";
+import Editor from './Editor';
 
 
 const MemoDetail = () => {
@@ -46,7 +46,7 @@ const MemoDetail = () => {
 
   return (
     <div className='p-2'>
-      <div className='p-3 border-b flex justify-between items-center h-16'>
+      <div className='p-3 border-b flex justify-between items-center h-20'>
         {isModify ? (
           <input
             type='text'
@@ -64,14 +64,14 @@ const MemoDetail = () => {
           </>
         )}
       </div>
-      <div className='p-3 border min-h-[400px]'>
+      <div className='px-5 py-9 border min-h-[400px]'>
         {isModify ? (
-          <RenderEditor content={content} setContent={setContent} />
+          <Editor content={content} setContent={setContent} />
         ) : (
           Parser(content)
         )}
       </div>
-      <div className='p-3 h-16 flex justify-between items-center'>
+      <div className='px-4 h-16 flex justify-between items-center'>
         <div className='flex gap-3'>
           <button
             className='p-2 bg-slate-400 text-white'
