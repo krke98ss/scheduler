@@ -85,7 +85,7 @@ const memoSlice = createSlice({
     });
     builder.addCase(modifyMemo.fulfilled, (state, action) => {
       const modifyMemo = action.payload;
-      console.log(modifyMemo);
+      
       state.memoList = state.memoList.map((memo) => {
         if (memo.id === modifyMemo.id) {
           return { ...memo, ...modifyMemo };

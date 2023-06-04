@@ -9,7 +9,7 @@ const Days = ({selectedDate }) => {
         className={`
         ${getDay(selectedDate) === i ? "border-red-300" : ""}
         ${i === 0 ? "text-red-600" : ""}
-          border-b-4 w-16 p-2 flex-grow font-medium tracking-wider`}
+          border-b-4 p-2 flex-grow font-medium tracking-wider w-full`}
         key={i}
       >
         {date}
@@ -17,7 +17,7 @@ const Days = ({selectedDate }) => {
     );
   });
 
-  return <div className='flex gap-1'>{days}</div>;
+  return <div className='flex gap-1 text-xs md:text-sm ' >{days}</div>;
 };
 
 export default Days;

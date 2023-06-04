@@ -30,7 +30,7 @@ export const fetchTodos = createAsyncThunk(
 );
 
 export const modifyTodo = createAsyncThunk(
-  "memo/modifyTodo",
+  "todo/modifyTodo",
   async (modi) => {
     console.log(modi);
     try {

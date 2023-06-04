@@ -90,7 +90,7 @@ const MemoDetail = () => {
         <div className='flex items-center gap-3'>
           <Link to='/memo'>
             <button className='p-3 bg-slate-600'>
-              <BsArrowReturnLeft className='text-white font-bold text-lg' />
+              <BsArrowReturnLeft className='text-white font-bold ' />
             </button>
           </Link>
           {isModify ? (

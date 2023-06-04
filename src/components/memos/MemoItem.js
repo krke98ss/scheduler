@@ -22,7 +22,7 @@ const MemoItem = ({ memo, index }) => {
           <div className='font-bold'>
             {index + 1}. {memo.title}
           </div>
-          <div className='flex gap-5'>
+          <div className='flex gap-5 items-center'>
             <div className=''> {format(new Date(memo.date), "yyyy/MM/dd")}</div>
             <button onClick={removeCurrentMemo}>
               <TiTimesOutline className='text-2xl' />
@@ -31,25 +31,23 @@ const MemoItem = ({ memo, index }) => {
         </div>
       ) : (
         <div
-          className='border bg-yellow-100 w-48 h-48 shadow-md flex'
+          className='border bg-yellow-100 w-full min-h-[7rem] shadow-md flex'
           onMouseOver={() => setOver(true)}
           onMouseLeave={() => setOver(false)}
         >
-          {over ? (
+          
             <div className='relative p-2 items-center w-full h-10'>
               <div className='flex justify-between'>
-                <span className=' px-2 py-1 border-2 border-slate-400 rounded-lg font-bold'>
+                <span className=' px-2 py-1 border border-slate-400 rounded-lg font-bold'>
                   {format(new Date(memo.date), "yyyy/MM/dd")}
                 </span>
                 <button onClick={removeCurrentMemo}>
-                  <TiTimesOutline className='text-2xl' />
+                  <TiTimesOutline className='text-xl' />
                 </button>
               </div>
               <div className='p-2 font-bold'>{memo.title}</div>
             </div>
-          ) : (
-            ""
-          )}
+          
         </div>
       )}
     </Link>

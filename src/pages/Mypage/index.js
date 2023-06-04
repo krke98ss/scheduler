@@ -5,7 +5,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { AiFillPicture} from "react-icons/ai";
 import { IoTrashBin } from "react-icons/io5";
 import { CiUndo } from "react-icons/ci";
-import { editProfile, setProfileImg } from '../../redux/feature/user/action';
+import { editProfile, removeProfileImg, setProfileImg } from '../../redux/feature/user/action';
 
 
 
@@ -26,7 +26,7 @@ const Mypage = () => {
   }
   return (
     <>
-    <div className='border min-w-[812px] shadow-md p-4 flex flex-col'>
+    <div className='border shadow-md p-4 flex flex-col w-full'>
       <div className='h-10 flex justify-end'>
         <button 
           className='p-2 w-10 h-10 text-white bg-slate-600 rounded-full shadow-xl'
@@ -89,17 +89,25 @@ const Mypage = () => {
 const RenderImage = () => {
   const [over, setOver] = useState(false);
   const userInfo = useSelector((state) => state.user.info);
-  console.log(userInfo);
+  
   const file = useRef();
-  const [img, setImg] = useState(null);
+  const img = useRef();
   const dispatch = useDispatch();
 
   const handleBtnClick = () => {
     file.current.click();
   }
   const handleChange = (e) => {
-    const img = file.current.files[0];
-    dispatch(setProfileImg(img, userInfo.id));
+    const updateImg = file.current.files[0];
+    dispatch(setProfileImg(updateImg, ));
+    
+  }
+
+  const removeImg = () => {
+    const removeImg = img.current?.src;
+    if(removeImg){
+      dispatch(removeProfileImg(removeImg)); 
+    }
     
   }
 
@@ -111,8 +119,8 @@ const RenderImage = () => {
       onMouseLeave={() => setOver(false)}
     >
       {userInfo.profile_img 
-        ? <img src={userInfo.profile_img}/> 
-        :<div className='text-white font-bold'>No Image</div>
+        ? <img src={userInfo.profile_img} ref={img} alt='profile_img'/> 
+        : <img src='no_image.jpg' alt='no_image' className='w-full'/>
       }
       
       {over ? (
@@ -125,7 +133,8 @@ const RenderImage = () => {
             <AiFillPicture className='text-2xl' />
             
           </div>
-          <div className='w-10 h-10 bottom-0 flex justify-center items-center hover:bg-white'>
+          <div className='w-10 h-10 bottom-0 flex justify-center items-center hover:bg-white'
+          onClick={removeImg}>
             <IoTrashBin className='text-2xl' />
           </div>
         </div>
@@ -153,11 +162,11 @@ const Modal = ({setOpenModal }) => {
 
   return (
     <div
-    className='w-screen h-screen absolute flex justify-center items-center z-[1200]'
+    className='w-screen h-screen absolute flex justify-center items-center z-[1200] left-0'
     onClick={closeModal}
   >
     <div
-      className='w-96 h-96 bg-white border shadow-md p-3 border-slate-400 flex flex-col gap-2'
+      className='w-72 h-72 bg-white border shadow-md p-3 border-slate-400 flex flex-col gap-2'
       ref={modalRef}
     >
       <div className='h-10 flex items-center justify-between'>
@@ -173,6 +182,12 @@ const Modal = ({setOpenModal }) => {
           >
             <CiUndo className='text-xl' />
             <span>데이터 리셋</span>
+          </button>
+          <button
+            className='w-36 text-sm bg-indigo-400 text-white p-3 flex justify-center gap-3'
+          >
+            
+            <span>회원 탈퇴</span>
           </button>
     </div>
     </div>

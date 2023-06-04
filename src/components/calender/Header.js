@@ -19,16 +19,19 @@ const Header = ({ currentMonth, prevMonth, nextMonth }) => {
   ];
   const monthString = months[getMonth(currentMonth)];
   return (
-    <div className='w-full border-b  h-20 flex items-center justify-between'>
+    <div className='w-full border-b  h-16 flex items-center justify-between
+      md:h-20
+    '>
       <div>
-        <span className='text-3xl ml-5 font-bold text-orange-800'>
+        <span className='text-xl ml-5 font-bold text-orange-800 md:text-2xl'>
           {format(currentMonth, "M")}{" "}
-          <span className='text-base font-normal'>({monthString})</span>
+          <span className='text-sm font-normal md:text-base'>({monthString})</span>
         </span>
       
       </div>
-      <div className='flex gap-10'>
-      <span className='text-2xl ml-3 font-bold text-gray-500'>{format(currentMonth, "yyyy")}</span>
+      <div className='flex gap-3 items-center 
+                      md:text-xl md:gap-7'>
+      <span className='ml-3 font-bold text-gray-500'>{format(currentMonth, "yyyy")}</span>
       <div className='flex gap-2 mr-5'>
         <button className='p-2 border' onClick={() => prevMonth()}>
           <FiChevronLeft />

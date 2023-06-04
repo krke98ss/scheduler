@@ -8,7 +8,10 @@ const Memo = () => {
   const [isWrite, setIsWrite] = useState(false);
 
   return (
-    <div className='border  w-[812px] shadow-md '>
+    <div className='border w-full shadow-md text-xs  
+    lg:text-sm
+    
+    '>
       <Header />
       {isWrite ? (
         <RenderWrite setIsWrite={setIsWrite} />

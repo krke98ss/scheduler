@@ -2,10 +2,12 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from "./feature/user/userSlice";
 import todoReducer from "./feature/todoSlice";
 import memoReducer from "./feature/memoSlice";
+import scheduleSlice from "./feature/scehdule/schduleSlice";
 import { combineReducers } from 'redux';
 import persistReducer from 'redux-persist/es/persistReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import persistStore from 'redux-persist/es/persistStore';
+
 
 
 const persistConfig = {
@@ -26,7 +28,8 @@ const authConfig = {
 const rootReducer = combineReducers({
   user : persistReducer(authConfig, userReducer),
   todo : todoReducer,
-  memo : memoReducer
+  memo : memoReducer,
+  schedule : scheduleSlice
 })
 
 const persistedReducer  = rootReducer;

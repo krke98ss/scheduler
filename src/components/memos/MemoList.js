@@ -6,12 +6,13 @@ import { fetchMemos } from '../../redux/feature/memoSlice';
 const MemoList = () => {
   const sort = useSelector((state) => state.memo.sort);
   const memoList = useSelector((state) => state.memo.memoList);
-  const userId = useSelector((state) => state.user.info).id;
+  const userId = useSelector((state) => state.user.info);
+  console.log(userId);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  /* useEffect(() => {
     dispatch(fetchMemos(userId));
-  }, [])
+  }, []) */
   
   
   let render = memoList.map((memo, index) => <MemoItem memo={memo} index={index} key={index}/>);
@@ -22,10 +23,15 @@ const MemoList = () => {
       </div>
   }
 
-  if(sort === "image"){
-    return <div className='grid gap-3 grid-cols-4 p-4 max-lg:grid-cols-3'>{render}</div>
+  if(sort === "list"){
+    return <div className='p-2 min-h-[12rem] flex flex-col gap-1'>{render}</div>
   }else {
-    return <div className='p-2 min-h-[12rem] flex flex-col  gap-1'>{render}</div>
+    return <div className='grid gap-2 p-3 w-full mx-auto
+    grid-cols-3 
+    md:grid-cols-3 
+    lg:grid-cols-4
+    2xl:grid-cols-5
+    '>{render}</div>
   }
   
 }

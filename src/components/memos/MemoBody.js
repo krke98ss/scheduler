@@ -14,12 +14,13 @@ const MemoBody = () => {
   return (
     <>
       <div className='border min-h-[4rem] flex justify-end p-2 gap-4 items-center'>
-        <div className='flex items-center  rounded-lg px-2  text-gray-500 text-sm h-9'>
+        <div className='flex items-center  rounded-lg px-2  text-gray-500  h-9'>
           <div className='flex gap-2 border-r-2 px-3'>
             <label for='list'>목록</label>
             <input
               id='list'
               type='radio'
+              className='w-5 rounded-xl checked:outline-1 checked:bg-indigo-500 bg-gray-200'
               name='sort'
               value='list'
               checked={sort === 'list'}
@@ -31,7 +32,7 @@ const MemoBody = () => {
             <input
               id='image'
               type='radio'
-              
+              className='w-5 rounded-xl checked:outline-1 checked:bg-indigo-500 bg-gray-200'
               name='sort'
               value='image'
               checked={sort === 'image'}
@@ -44,7 +45,7 @@ const MemoBody = () => {
             className='p-2 text-white bg-slate-600 flex gap-3 items-center'
             onClick={() => setIsWrite(!isWrite)}
           >
-            <span className='text-sm'>글 작성</span>
+            <span className=''>글 작성</span>
             <GoPencil className='' />
           </button>
         </div>
@@ -53,7 +54,6 @@ const MemoBody = () => {
     </>
   );
 }
-
 
 
 

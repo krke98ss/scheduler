@@ -38,7 +38,7 @@ const Calender = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
   return (
-    <div className='flex flex-col w-[900px] gap-2 shadow-lg p-3 relative'>
+    <div className='flex flex-col  gap-2 shadow-lg p-3 relative w-full'>
       <Header
         currentMonth={currentMonth}
         prevMonth={prevMonth}

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import { PURGE } from 'redux-persist';
-import { editProfile, setProfileImg, userLogin } from './action';
+import { editProfile, removeProfileImg, setProfileImg, socialLogin, userLogin } from './action';
 
 const initialState = {
   info : null,
@@ -25,6 +25,10 @@ const userSlice = createSlice({
       state.isLogin = true;
       state.info = action.payload;
     });
+    builder.addCase(socialLogin.fulfilled, (state, action) => {
+      state.isLogin = true;
+      state.info = action.payload;
+    });
     builder.addCase(userLogin.rejected, (state, action) => {
       const error = action.error;
       state.error = error.message;
@@ -35,8 +39,7 @@ const userSlice = createSlice({
     builder.addCase(setProfileImg.fulfilled, (state, action) => {
       state.info = {...state.info, profile_img : action.payload};
     });
-    builder.addCase(setProfileImg.rejected, () => initialState);
-    
+  
   }
 
 

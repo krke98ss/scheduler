@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { BiLockAlt } from "react-icons/bi";
+import { AiOutlineCheck } from "react-icons/ai";
 import axios from '../../api/axios';
 
 const Register = () => {
@@ -18,7 +20,8 @@ const Register = () => {
   const [isValid, setIsValid] = useState({
     id: false,
     pw: false,
-    email: false
+    email: false,
+    confirmPw : false
   });
   const [isErr, setIsErr] = useState({
     id: false,
@@ -28,7 +31,7 @@ const Register = () => {
 
   })
 
-  const [confirmPwd, setConfirmPwd] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
   const [isConfirm, setIsConfirm] = useState(false);
   const userRef = useRef();
   const [errMsg, seterrMsg] = useState("");
@@ -55,20 +58,25 @@ const Register = () => {
 
   useEffect(() => {
     const result = PWD_REGEX.test(userInfo.pw);
-    if (!result) {
-      setIsValid({ ...isValid, pw: false });
-      return;
-    }
-    if (userInfo.pw === confirmPwd) {
+    if (result) {
       setIsValid({ ...isValid, pw: true });
+      return;
     } else {
       setIsValid({ ...isValid, pw: false });
     }
 
-  }, [userInfo.pw, confirmPwd]);
+  }, [userInfo.pw]);
 
   useEffect(() => {
-    if (!isValid.id || !isValid.email || !isValid.pw) {
+    if (isValid.pw &&userInfo.pw === confirmPw) {
+      setIsValid({ ...isValid, confirmPw: true });
+    } else {
+      setIsValid({ ...isValid, confirmPw: false });
+    }
+  },[confirmPw])
+
+  useEffect(() => {
+    if (!isValid.id || !isValid.email || !isValid.pw || !isValid.confirmPw) {
       setIsConfirm(false);
       return;
     }
@@ -117,7 +125,10 @@ const Register = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    register(userInfo);
+    if(isConfirm){
+      register(userInfo);
+    }
+    return false;
 
   }
 
@@ -141,21 +152,29 @@ const Register = () => {
         <Link to="/">← 뒤로가기</Link>
       </div>
       <form className='flex flex-col gap-5 w-96 p-5 justify-center' onSubmit={onSubmitHandler}>
-        <span className='border-2 border-violet-400 text-center p-3 mx-6 text-lg rounded-full tracking-wider text-gray-400'>Register</span>
+        <span className='border-2 border-violet-400 text-center p-3 mx-6 text-lg rounded-full tracking-wider text-gray-400'>SIGN UP</span>
         <div className='flex w-full gap-7 flex-col'>
+        <div className='w-full flex grow relative'>
           <input
             type='text'
             name="id"
             ref={userRef}
             placeholder='아이디'
-            className='p-2 font-thin border-b-2 focus:outline-none focus:border-slate-700'
+            className='p-2 font-thin border-b-2 focus:outline-none focus:border-slate-700 w-full'
             autoComplete='off'
             onChange={onChangeHandler}
             onBlur={checkId}
             value={userInfo.id}
           />
+          {isValid.id ?
+            <span>
+            <AiOutlineCheck className='text-2xl  absolute right-0 text-green-400'/>
+            </span>
+            :""
+            }
+        </div>
           {isErr.id ? <ErrorMsg /> : ""}
-
+          
           <input
             type='text'
             name="name"
@@ -165,16 +184,24 @@ const Register = () => {
             onChange={onChangeHandler}
             value={userInfo.name}
           />
+          <div className='w-full flex grow relative'>
           <input
             type='email'
             name="email"
             placeholder='이메일'
-            className='p-2 font-thin border-b-2 focus:outline-none focus:border-slate-700'
+            className='p-2 font-thin border-b-2 focus:outline-none focus:border-slate-700 w-full'
             autoComplete='off'
             onChange={onChangeHandler}
             value={userInfo.email}
           />
-          <div className='w-full flex   grow relative'>
+          {isValid.email 
+            ?<span>
+            <AiOutlineCheck className='text-2xl  absolute right-0 text-green-400'/>  
+            </span>
+            : ""
+            }
+          </div>
+          <div className='w-full flex grow relative'>
             <input
               type='password'
               name="pw"
@@ -184,9 +211,14 @@ const Register = () => {
               onChange={onChangeHandler}
               value={userInfo.pw}
             />
-            <span>
-              <img src="img/lock.svg" alt="" className='w-7 absolute right-0' />
+            {isValid.pw 
+            ?<span>
+            <AiOutlineCheck className='text-2xl  absolute right-0 text-green-400'/>  
             </span>
+            : <span>
+            <BiLockAlt className='text-2xl  absolute right-0'/>
+            </span>
+            }
           </div>
           <div className='w-full flex   grow relative'>
             <input
@@ -194,14 +226,19 @@ const Register = () => {
               name="confirmPw"
               placeholder='비밀번호 확인'
               className='p-2 font-thin focus:outline-none  border-b-2 focus:border-slate-700 grow'
-              onChange={e => setConfirmPwd(e.target.value)}
+              onChange={e => setConfirmPw(e.target.value)}
             />
-            <span>
-              <img src="img/lock.svg" alt="" className='w-7 absolute right-0' />
+            {isValid.confirmPw 
+            ?<span>
+            <AiOutlineCheck className='text-2xl  absolute right-0 text-green-400'/>  
             </span>
+            : <span>
+            <BiLockAlt className='text-2xl  absolute right-0'/>
+            </span>
+            }
           </div>
 
-          <div className='w-full flex grow relative'>
+        {/*   <div className='w-full flex grow relative'>
             <div className='flex flex-col w-full'>
               <label className='border rounded-md text-center mb-3 py-1'>휴대전화</label>
               <div className='flex mt-5'>
@@ -211,7 +248,7 @@ const Register = () => {
                   placeholder='휴대폰 번호'
                   className='p-2 font-thin focus:outline-none border-b-2 focus:border-slate-700 grow 
                   [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
-                  onChange={e => setConfirmPwd(e.target.value)}
+                  
                 />
                 <button className='bg-slate-600 text-white text-sm w-24'>인증번호 받기</button>
               </div>
@@ -223,12 +260,12 @@ const Register = () => {
                   placeholder='인증번호를 입력하세요.'
                   className='p-2 font-thin focus:outline-none  border-b-2 focus:border-slate-700 grow appearance-none
                   [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
-                  onChange={e => setConfirmPwd(e.target.value)}
+                  
                 />
                 <button className='bg-slate-600 text-white text-sm w-24'>인증</button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <button

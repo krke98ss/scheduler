@@ -1,6 +1,18 @@
 
 @tailwind base;
 
+@font-face {
+  font-family: 'Dovemayo_gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Dovemayo_gothic';
+}
+
+
 @layer base {
   h1 {
     @apply text-3xl font-extrabold;
@@ -15,12 +27,13 @@
   ul {
     @apply  
     block
-    list-disc
     ms-0
     me-0
     ps-[40px]
     block
     m-2
+    list-none
+    
   }
   ol {
     @apply  
@@ -30,6 +43,11 @@
     me-0
     ps-[40px]
     m-2
+  }
+  [type="radio"]  {
+    vertical-align: middle;
+    appearance: none;
+    cursor: pointer;
   }
   
   
@@ -53,3 +71,12 @@
 .ck {
   border :none;
 }
+.react-datepicker-wrapper {
+  width: 84px !important;
+  position: relative !important;
+  
+}
+react-datepicker__input-container  {
+ 
+}
+
